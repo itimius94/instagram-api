@@ -1,4 +1,4 @@
-var cookieParser = require('cookie-parser');
+var cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const express = require("express");
@@ -44,7 +44,7 @@ app.post("/login", async (req, res) => {
 
   try {
     if (users.length === 1) {
-      res.cookie('user_id', users[0]._id)
+      res.cookie("user_id", users[0]._id);
       res.send(users[0]);
     }
   } catch (err) {
@@ -54,7 +54,7 @@ app.post("/login", async (req, res) => {
 
 app.get("/logout", (req, res) => {
   try {
-    res.send('Logout success!!')
+    res.send("Logout success!!");
   } catch (err) {
     res.status(500).send(err);
   }
@@ -72,13 +72,13 @@ app.post("/register", async (req, res) => {
 });
 
 app.post("/me/posts", async (req, res) => {
-  const { user_id = '' } = req.cookies
-  const payload = req.body
-  
-  payload.user_id = user_id
-  payload.posted_at = (new Date()).toString()
-  payload.updated_at = (new Date()).toString()
-  
+  const { user_id = "" } = req.cookies;
+  const payload = req.body;
+
+  payload.user_id = user_id;
+  payload.posted_at = new Date().toString();
+  payload.updated_at = new Date().toString();
+
   const post = new postModel(payload);
 
   try {
@@ -90,16 +90,19 @@ app.post("/me/posts", async (req, res) => {
 });
 
 app.get("/me/posts", async (req, res) => {
-  const { user_id = '' } = req.cookies
-  const posts = await postModel.find({user_id});
+  const { user_id = "" } = req.cookies;
+  const posts = await postModel.find({ user_id });
 
   try {
     res.send(posts);
   } catch (err) {
     res.status(500).send(err);
   }
-})
+});
 
-app.listen(port, () =>
-  console.log(`Example app listening at http://localhost:${port}`)
-);
+const listener = app.listen(process.env.PORT, () => {
+  console.log("Your app is listening on port " + listener.address().port);
+});
+// app.listen(port, () =>
+//   console.log(`Example app listening at http://localhost:${port}`)
+// );
