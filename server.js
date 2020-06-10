@@ -2,16 +2,16 @@ var cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const express = require("express");
+var cors = require("cors");
 const app = express();
-const port = 3000;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(cors());
 
 app.set("views", "./views");
 
-const foodModel = require("./models/food");
 const userModel = require("./models/user");
 const postModel = require("./models/post");
 
@@ -103,6 +103,3 @@ app.get("/me/posts", async (req, res) => {
 const listener = app.listen(process.env.PORT, () => {
   console.log("Your app is listening on port " + listener.address().port);
 });
-// app.listen(port, () =>
-//   console.log(`Example app listening at http://localhost:${port}`)
-// );
