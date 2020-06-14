@@ -8,7 +8,9 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(cors());
+app.use(cors({
+  origin: false
+}));
 
 app.set("views", "./views");
 
@@ -39,7 +41,7 @@ app.get("/users", async (req, res) => {
   }
 });
 
-app.post("/login", cors(), async (req, res) => {
+app.post("/login", async (req, res) => {
   const users = await userModel.find(req.body);
 
   try {
