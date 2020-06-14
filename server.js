@@ -8,9 +8,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(cors({
-  origin: "*"
-}));
+app.use(cors());
 
 app.set("views", "./views");
 
@@ -42,6 +40,7 @@ app.get("/users", async (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
+  res.set('Access-Control-Allow-Origin', '*');
   const users = await userModel.find(req.body);
 
   try {
