@@ -43,7 +43,7 @@ app.post("/login", async (req, res) => {
   const users = await userModel.find(req.body);
 
   try {
-    if (users.length) {
+    if (!users.length) {
       return res.status(400).send('User not found')
     }
     
