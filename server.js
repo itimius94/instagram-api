@@ -40,14 +40,15 @@ app.get("/users", async (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
-  res.set('Access-Control-Allow-Origin', '*');
   const users = await userModel.find(req.body);
 
   try {
-    if (users.length === 1) {
-      res.cookie("user_id", users[0]._id);
-      res.send(users[0]);
+    if (users.length) {
+      return res.status(400).send('User not found')
     }
+    
+    res.cookie("user_id", users[0]._id);
+    res.send(users[0]);
   } catch (err) {
     res.status(500).send(err);
   }
